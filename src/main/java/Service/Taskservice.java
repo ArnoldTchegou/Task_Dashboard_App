@@ -6,6 +6,7 @@ import Exceptions.InvalidDateFormatException;
 import Exceptions.InvalidNameLength;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 
 import java.time.LocalDate;
 
@@ -25,7 +26,6 @@ public class Taskservice {
         task1.setTaskStatus(1);
         task1.setTaskstartDate(LocalDate.now());
         task1.setTaskendDate(task1.getTaskstartDate().plusDays(7));
-        task1.setUser(em.find(AppUser.class, 1));
         em.persist(task1);
         em.getTransaction().commit();
     }

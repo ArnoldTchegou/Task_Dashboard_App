@@ -1,9 +1,9 @@
 package Entity;
 
 import Exceptions.InvalidNameLength;
+import Util.EntityManagerUtil;
 import jakarta.persistence.*;
 
-import java.time.format.DateTimeFormatter;
 
 @Access(AccessType.FIELD)
 @Table(name = "Person",
@@ -26,8 +26,14 @@ public class AppUser {
     @Column(name = "Last_Name", length = 10)
     private String lastName;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumns({
+            @JoinColumn(name = "task_id", referencedColumnName = "task_id"),
+            @JoinColumn(name = "task_name", referencedColumnName = "task_Name")
+    })
     private Task task;
+
+    private static EntityManager em = EntityManagerUtil.getEntityManager();
 
     public Long getId() {
         return id;
@@ -51,7 +57,7 @@ public class AppUser {
     }
 
     public String toString(){
-        return id + " " + firstName+" "+ lastName;
+        return getId() + " " + getFirstName()+" "+ getLastName()+" "+task.toString();
     }
 
     public String getFirstName() {
@@ -78,4 +84,7 @@ public class AppUser {
         }
     }
 
+    public void setTask(Task task) {
+        this.task = task;
+    }
 }

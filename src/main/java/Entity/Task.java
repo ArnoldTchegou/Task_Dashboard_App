@@ -13,11 +13,12 @@ import java.time.format.DateTimeParseException;
 @Access(AccessType.FIELD)
 @IdClass(TaskPrimaryKey.class)
 @Entity
+@Table(name = "task")
 public class Task {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Id
-    @Column(name = "id")
+    @Column(name = "task_id")
     private int taskid;
 
     @Id
@@ -45,8 +46,8 @@ public class Task {
         this.user = user;
     }
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+
+    @OneToOne(mappedBy = "task")
     private AppUser user;
 
     @Transient
@@ -161,4 +162,7 @@ public class Task {
         this.taskStatus = statuses[statusidx];
     }
 
+    public String toString(){
+        return taskName + ": " + taskDescription+" : " + taskstartDate + " : " + taskendDate + " : " + taskStatus;
+    }
 }

@@ -13,12 +13,13 @@ public class EntityManagerUtil {
     private static EntityManager entityManager;
 
     // Private constructor to prevent instantiation
-    private EntityManagerUtil() {}
+    private EntityManagerUtil() {
+    }
 
     // Thread-safe method to get EntityManager instance
     public static synchronized EntityManager getEntityManager() {
         if (entityManagerFactory == null) {
-            entityManagerFactory = Persistence.createEntityManagerFactory("Entity.AppUser");
+            entityManagerFactory = Persistence.createEntityManagerFactory("Application");
         }
 
         if (entityManager == null || !entityManager.isOpen()) {
@@ -26,16 +27,6 @@ public class EntityManagerUtil {
         }
 
         return entityManager;
-    }
-
-    // Method to close the EntityManager and factory when application shuts down
-    public static synchronized void close() {
-        if (entityManager != null && entityManager.isOpen()) {
-            entityManager.close();
-        }
-        if (entityManagerFactory != null && entityManagerFactory.isOpen()) {
-            entityManagerFactory.close();
-        }
     }
 }
 
